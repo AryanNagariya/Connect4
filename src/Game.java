@@ -53,6 +53,14 @@ public class Game implements Runnable {
             }
         });
         control_panel.add(reset);
+        
+        final JButton undo = new JButton("Undo");
+        undo.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                board.undo();
+            }
+        });
+        control_panel.add(undo);
 
         // Put the frame on the screen
         frame.pack();

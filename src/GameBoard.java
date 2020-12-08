@@ -73,6 +73,15 @@ public class GameBoard extends JPanel {
         // Makes sure this component has keyboard/mouse focus
         requestFocusInWindow();
     }
+    
+    public void undo() {
+        ttt.undo();
+        updateStatus();
+        repaint();
+
+        // Makes sure this component has keyboard/mouse focus
+        requestFocusInWindow();
+    }
 
     /**
      * Updates the JLabel to reflect the current state of the game.
@@ -121,6 +130,8 @@ public class GameBoard extends JPanel {
         g.drawLine(0, 400, 700, 400);
         g.drawLine(0, 500, 700, 500);
         g.drawLine(0, 600, 700, 600);
+        
+        g.drawString("Total Moves : " + ttt.getNumTurms(), 350, 650);
 
         // Draws X's and O's
         for (int i = 0; i < 6; i++) {

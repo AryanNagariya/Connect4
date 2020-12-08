@@ -62,7 +62,7 @@ public class Connect4Game {
     public int checkWinner(int c, int r) {
         if (HorizontalLeftWinner(c, r) || HorizontalRightWinner(c, r) || VerticalTopWinner(c, r)
                 || VerticalBottomWinner(c, r) || DiagonalBottomRight(c, r) || DiagonalBottomLeft(c, r)
-                || DiagonalTopLeft(c, r) || DiagonalBottomLeft(c, r)) {
+                || DiagonalTopLeft(c, r) || DiagonalTopRight(c, r)) {
             gameOver = true;
             if (player1) {
                 return 1;
@@ -174,15 +174,23 @@ public class Connect4Game {
         }
     }
 
-    public void Undo() {
+    public void undo() {
+        if (gameOver || numTurns ==0) {
+            return;
+        }
         int rowToUndo = rmoves.pop();
         int ColumnToUndo = cmoves.pop();
         board[rowToUndo][ColumnToUndo] = 0;
         numTurns--;
+        player1 = !player1;
     }
 
     public boolean getCurrentPlayer() {
         return player1;
+    }
+    
+    public int getNumTurms() {
+        return numTurns;
     }
 
     public int getCell(int c, int r) {
