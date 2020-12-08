@@ -60,14 +60,18 @@ public class Connect4Game {
     }
 
     public int checkWinner(int c, int r) {
-        if (HorizontalLeftWinner(c, r) || HorizontalRightWinner(c, r) || VerticalTopWinner(c, r)
-                || VerticalBottomWinner(c, r) || DiagonalBottomRight(c, r) || DiagonalBottomLeft(c, r)
-                || DiagonalTopLeft(c, r) || DiagonalTopRight(c, r)) {
-            gameOver = true;
-            if (player1) {
-                return 1;
-            } else {
-                return 2;
+        for (int i = 0; i < 6; i++) {
+            for (int j = 0; j < 7; j++) {
+                if (HorizontalLeftWinner(i, j) || HorizontalRightWinner(i, j) || VerticalTopWinner(i, j)
+                        || VerticalBottomWinner(i, j) || DiagonalBottomRight(i, j) || DiagonalBottomLeft(i, j)
+                        || DiagonalTopLeft(i, j) || DiagonalTopRight(i, j)) {
+                    gameOver = true;
+                    if (player1) {
+                        return 1;
+                    } else {
+                        return 2;
+                    }
+                }
             }
         }
         if (numTurns >= 42) {

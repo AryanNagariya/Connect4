@@ -24,7 +24,7 @@ public class Game implements Runnable {
         // Top-level frame in which game components live
         final JFrame frame = new JFrame("Connect 4");
         frame.setLocation(300, 300);
-        frame.setPreferredSize(new Dimension(800, 800));
+        frame.setPreferredSize(new Dimension(750, 850));
 
         // Status panel
         final JPanel status_panel = new JPanel();
@@ -61,6 +61,14 @@ public class Game implements Runnable {
             }
         });
         control_panel.add(undo);
+        
+        final JButton howtoplay = new JButton("How to Play");
+        howtoplay.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                board.howtoplay();
+            }
+        });
+        control_panel.add(howtoplay);
 
         // Put the frame on the screen
         frame.pack();

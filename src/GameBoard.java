@@ -23,6 +23,7 @@ public class GameBoard extends JPanel {
 
     private Connect4Game ttt; // model for the game
     private JLabel status; // current status text
+    private boolean toplay;
 
     // Game constants
     public static final int BOARD_WIDTH = 800;
@@ -82,6 +83,11 @@ public class GameBoard extends JPanel {
         // Makes sure this component has keyboard/mouse focus
         requestFocusInWindow();
     }
+    
+    public void howtoplay() {
+        toplay = true;
+        repaint();
+    }
 
     /**
      * Updates the JLabel to reflect the current state of the game.
@@ -132,6 +138,12 @@ public class GameBoard extends JPanel {
         g.drawLine(0, 600, 700, 600);
         
         g.drawString("Total Moves : " + ttt.getNumTurms(), 350, 650);
+        
+        if(toplay) {
+            g.drawString("The game of Connect 4 is won by placing 4 checkers in a row", 225, 680);
+            g.drawString("The two Players alternate their turns", 275, 700);
+            g.drawString("Use the mouse to select the column you to wish to play your checker in", 175, 720);
+        }
 
         // Draws X's and O's
         for (int i = 0; i < 6; i++) {
