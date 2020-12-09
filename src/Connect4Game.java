@@ -62,9 +62,11 @@ public class Connect4Game {
     public int checkWinner(int c, int r) {
         for (int i = 0; i < 6; i++) {
             for (int j = 0; j < 7; j++) {
-                if (HorizontalLeftWinner(i, j) || HorizontalRightWinner(i, j) || VerticalTopWinner(i, j)
-                        || VerticalBottomWinner(i, j) || DiagonalBottomRight(i, j) || DiagonalBottomLeft(i, j)
-                        || DiagonalTopLeft(i, j) || DiagonalTopRight(i, j)) {
+                if (horizontalLeftWinner(i, j) || horizontalRightWinner(i, j) || 
+                        verticalTopWinner(i, j)
+                        || verticalBottomWinner(i, j) || diagonalBottomRight(i, j) 
+                        || diagonalBottomLeft(i, j)
+                        || diagonalTopLeft(i, j) || diagonalTopRight(i, j)) {
                     gameOver = true;
                     if (player1) {
                         return 1;
@@ -86,7 +88,7 @@ public class Connect4Game {
         return winner;
     }
 
-    public boolean HorizontalLeftWinner(int c, int r) {
+    public boolean horizontalLeftWinner(int c, int r) {
         try {
             return (board[r][c] == board[r][c - 1] && board[r][c - 1] == board[r][c - 2]
                     && board[r][c - 2] == board[r][c - 3] && (board[r][c] != 0));
@@ -95,7 +97,7 @@ public class Connect4Game {
         }
     }
 
-    public boolean HorizontalRightWinner(int c, int r) {
+    public boolean horizontalRightWinner(int c, int r) {
         try {
             return (board[r][c] == board[r][c + 1] && board[r][c + 1] == board[r][c + 2]
                     && board[r][c + 2] == board[r][c + 3] && (board[r][c] != 0));
@@ -104,7 +106,7 @@ public class Connect4Game {
         }
     }
 
-    public boolean VerticalTopWinner(int c, int r) {
+    public boolean verticalTopWinner(int c, int r) {
         try {
             return (board[r][c] == board[r + 1][c] && board[r + 1][c] == board[r + 2][c]
                     && board[r + 2][c] == board[r + 3][c] && (board[r][c] != 0));
@@ -113,7 +115,7 @@ public class Connect4Game {
         }
     }
 
-    public boolean VerticalBottomWinner(int c, int r) {
+    public boolean verticalBottomWinner(int c, int r) {
         try {
             return (board[r][c] == board[r - 1][c] && board[r - 1][c] == board[r - 2][c]
                     && board[r - 2][c] == board[r - 3][c] && (board[r][c] != 0));
@@ -122,7 +124,7 @@ public class Connect4Game {
         }
     }
 
-    public boolean DiagonalBottomRight(int c, int r) {
+    public boolean diagonalBottomRight(int c, int r) {
         try {
             return (board[r][c] == board[r + 1][c + 1] && board[r + 1][c + 1] == board[r + 2][c + 2]
                     && board[r + 2][c + 2] == board[r + 3][c + 3] && (board[r][c] != 0));
@@ -131,7 +133,7 @@ public class Connect4Game {
         }
     }
 
-    public boolean DiagonalTopLeft(int c, int r) {
+    public boolean diagonalTopLeft(int c, int r) {
         try {
             return (board[r][c] == board[r - 1][c - 1] && board[r - 1][c - 1] == board[r - 2][c - 2]
                     && board[r - 2][c - 2] == board[r - 3][c - 3] && (board[r][c] != 0));
@@ -140,7 +142,7 @@ public class Connect4Game {
         }
     }
 
-    public boolean DiagonalBottomLeft(int c, int r) {
+    public boolean diagonalBottomLeft(int c, int r) {
         try {
             return (board[r][c] == board[r + 1][c - 1] && board[r + 1][c - 1] == board[r + 2][c - 2]
                     && board[r + 2][c - 2] == board[r + 3][c - 3] && (board[r][c] != 0));
@@ -149,7 +151,7 @@ public class Connect4Game {
         }
     }
 
-    public boolean DiagonalTopRight(int c, int r) {
+    public boolean diagonalTopRight(int c, int r) {
         try {
             return (board[r][c] == board[r - 1][c + 1] && board[r - 1][c + 1] == board[r - 2][c + 2]
                     && board[r - 2][c + 2] == board[r - 3][c + 3] && (board[r][c] != 0));
@@ -179,12 +181,12 @@ public class Connect4Game {
     }
 
     public void undo() {
-        if (gameOver || numTurns ==0) {
+        if (gameOver || numTurns == 0) {
             return;
         }
         int rowToUndo = rmoves.pop();
-        int ColumnToUndo = cmoves.pop();
-        board[rowToUndo][ColumnToUndo] = 0;
+        int columnToUndo = cmoves.pop();
+        board[rowToUndo][columnToUndo] = 0;
         numTurns--;
         player1 = !player1;
     }

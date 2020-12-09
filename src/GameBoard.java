@@ -1,5 +1,12 @@
 import java.awt.*;
 import java.awt.event.*;
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
+
 import javax.swing.*;
 
 /**
@@ -24,6 +31,8 @@ public class GameBoard extends JPanel {
     private Connect4Game ttt; // model for the game
     private JLabel status; // current status text
     private boolean toplay;
+    private String[] highScoreUser = new String[3];
+    private int[] highScoreTurns = new int[3];
 
     // Game constants
     public static final int BOARD_WIDTH = 800;
@@ -88,6 +97,107 @@ public class GameBoard extends JPanel {
         toplay = true;
         repaint();
     }
+    
+    public void boardUsername(String name) {
+        try {
+            if (highScoreUser[0] == null) {
+                System.out.println("Creates a new file");
+                File storeHighScores = new File("highscores.txt");
+                if (!storeHighScores.exists()) {
+                    storeHighScores.createNewFile();
+                }
+                BufferedWriter bwfile = new BufferedWriter(new FileWriter(storeHighScores));
+                bwfile.write("Nouser0|43\n");
+                bwfile.write("Nouser1|43\n");
+                bwfile.write("Nouser2|43\n");
+                bwfile.close();
+            }
+        } catch (Exception e) {
+            System.out.println("error new file");
+            
+            return;
+        }
+        if (ttt.getGameOver()) {
+            System.out.println("Tries to edit score if game is over");
+            int currentUserScore = ttt.getNumTurms();
+            String[] cloneuser = new String [3];
+            int[] clonescore = new int [3];
+            for (int i = 0; i < 3; i++) {
+                cloneuser[i] = highScoreUser[i];
+                clonescore[i] = highScoreTurns[i];
+                if (clonescore[0] > currentUserScore) {
+                    System.out.println("First if");
+                    highScoreUser[0] = name;
+                    highScoreUser[1] = cloneuser[0];
+                    highScoreUser[2] = cloneuser[1];
+                    highScoreTurns[0] = currentUserScore;
+                    highScoreTurns[1] = clonescore[0];
+                    highScoreTurns[2] = clonescore[1];
+                } else if (clonescore[1] > currentUserScore) {
+                    System.out.println("Second if");
+                    highScoreUser[1] = name;
+                    highScoreUser[2] = cloneuser[1];
+                    highScoreTurns[1] = currentUserScore;
+                    highScoreTurns[2] = clonescore[1];
+                } else if (clonescore[2] > currentUserScore) {
+                    System.out.println("Third if");
+                    highScoreUser[2] = name;
+                    highScoreTurns[2] = currentUserScore;
+                } else {
+                    System.out.println("For debug");
+                }
+            }
+        }
+        writeToFile();
+    }
+    
+    public void writeToFile() {
+        BufferedWriter bw = null ;
+        try {
+            bw = new BufferedWriter(new FileWriter("highscores.txt", false));
+            String[] stringsToWrite = 
+                {
+                        highScoreUser[0] + "|" +  highScoreTurns[0],
+                        highScoreUser[1] + "|" +  highScoreTurns[1],
+                        highScoreUser[2] + "|" +  highScoreTurns[2]
+                };
+            for (String s: stringsToWrite) {
+                bw.write(s);
+                bw.newLine();
+            }
+            bw.close();
+        } catch (IOException e) {
+            return;
+        }
+    }
+    
+    public void readFromFile() {
+        try {
+            BufferedReader brfile = new BufferedReader(new FileReader("highscores.txt"));
+            for (int i = 0; i < 3; i++) {
+                String theline = brfile.readLine();
+                String[] storage = theline.split("\\|");
+                highScoreUser[i] = storage[0];
+                highScoreTurns[i] = Integer.parseInt(storage[1]);
+            }
+            brfile.close();
+        } catch (IOException e) {
+            return;
+        }
+    }
+    
+    public void showHighScore(String name) {
+        readFromFile();
+        boardUsername(name);
+        String todisplay;
+        todisplay = "First position is held by " + highScoreUser[0] + " with a score of " + 
+        highScoreTurns[0]
+                + "\n" + "Second Position is held by " + highScoreUser[1] + " with a score of " 
+                + highScoreTurns[1]
+                + "\n" + "Third Position is held by " + highScoreUser[2] + " with a score of "
+                + highScoreTurns[2];
+        JOptionPane.showMessageDialog(null, todisplay);
+    }
 
     /**
      * Updates the JLabel to reflect the current state of the game.
@@ -139,10 +249,13 @@ public class GameBoard extends JPanel {
         
         g.drawString("Total Moves : " + ttt.getNumTurms(), 350, 650);
         
-        if(toplay) {
+        if (toplay) {
             g.drawString("The game of Connect 4 is won by placing 4 checkers in a row", 225, 680);
             g.drawString("The two Players alternate their turns", 275, 700);
-            g.drawString("Use the mouse to select the column you to wish to play your checker in", 175, 720);
+            g.drawString("Use the mouse to select the column you to wish to "
+                    + "play your checker in", 175, 720);
+            toplay = false;
+            
         }
 
         // Draws X's and O's
