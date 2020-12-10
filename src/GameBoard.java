@@ -127,6 +127,7 @@ public class GameBoard extends JPanel {
             for (int i = 0; i < 3; i++) {
                 cloneuser[i] = highScoreUser[i];
                 clonescore[i] = highScoreTurns[i];
+            }
                 if (clonescore[0] > currentUserScore) {
                     System.out.println("First if");
                     highScoreUser[0] = name;
@@ -148,8 +149,7 @@ public class GameBoard extends JPanel {
                 } else {
                     System.out.println("For debug");
                 }
-            }
-            writeToFile();
+         writeToFile();
         }
     }
     
