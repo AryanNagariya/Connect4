@@ -20,7 +20,6 @@ import javax.swing.*;
 public class Game implements Runnable {
     public void run() {
         // NOTE: the 'final' keyword denotes immutability even for local variables.
-        String storeusername;
 
         // Top-level frame in which game components live
         final JFrame frame = new JFrame("Connect 4");
@@ -44,8 +43,7 @@ public class Game implements Runnable {
         // Take in User's name
         String response;
         response = JOptionPane.showInputDialog("Type your username here : ");
-        storeusername = response;
-        //board.Username(response);
+        board.storeUser(response);
 
         // Note here that when we add an action listener to the reset button, we define
         // it as an
@@ -80,7 +78,7 @@ public class Game implements Runnable {
         final JButton displayHighScore = new JButton("High Scores");
         displayHighScore.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                board.showHighScore(storeusername);
+                board.showHighScore();
             }
         });
         control_panel.add(displayHighScore);

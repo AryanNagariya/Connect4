@@ -32,6 +32,7 @@ public class GameBoard extends JPanel {
     private JLabel status; // current status text
     private String[] highScoreUser = new String[3];
     private int[] highScoreTurns = new int[3];
+    private String currPlayerName;
 
     // Game constants
     public static final int BOARD_WIDTH = 800;
@@ -172,6 +173,10 @@ public class GameBoard extends JPanel {
         }
     }
     
+    public void storeUser(String k) {
+        currPlayerName = k;
+    }
+    
     public boolean firstSetpUp() {
         boolean answer;
         try {
@@ -205,12 +210,15 @@ public class GameBoard extends JPanel {
         }
     }
     
-    public void showHighScore(String name) {
+    public void updateHighScore(String name) {
         if (firstSetpUp()) {
             readFromFile();
             
         }
         boardUsername(name);
+    }
+    
+    public void showHighScore() {
         String todisplay;
         todisplay = "First position is held by " + highScoreUser[0] + " with a score of " + 
         highScoreTurns[0]
@@ -234,8 +242,10 @@ public class GameBoard extends JPanel {
         int winner = ttt.getWinner();
         if (winner == 1) {
             status.setText("Player 1 wins!!!");
+            updateHighScore(currPlayerName);
         } else if (winner == 2) {
             status.setText("Player 2 wins!!!");
+            updateHighScore(currPlayerName);
         } else if (winner == 3) {
             status.setText("It's a tie.");
         }
