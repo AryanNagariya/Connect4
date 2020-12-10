@@ -30,7 +30,6 @@ public class GameBoard extends JPanel {
 
     private Connect4Game ttt; // model for the game
     private JLabel status; // current status text
-    private boolean toplay;
     private String[] highScoreUser = new String[3];
     private int[] highScoreTurns = new int[3];
 
@@ -94,7 +93,13 @@ public class GameBoard extends JPanel {
     }
     
     public void howtoplay() {
-        toplay = true;
+        
+        String toshow = "The game of Connect 4 is won by placing 4 checkers in a row. \n" + 
+                "The two players alternate their turns. \n"
+                + "Use the mouse to select the column you to wish to "
+                + "play your checker in." ;
+            
+        JOptionPane.showMessageDialog(null, toshow);
         repaint();
     }
     
@@ -106,7 +111,6 @@ public class GameBoard extends JPanel {
                     storeHighScores.createNewFile();
                 }
                 BufferedWriter bwfile = new BufferedWriter(new FileWriter(storeHighScores));
-                System.out.println("Adds Nousers");
                 bwfile.write("Nouser0|43");
                 bwfile.newLine();
                 bwfile.write("Nouser1|43");
@@ -115,9 +119,7 @@ public class GameBoard extends JPanel {
                 bwfile.close();
                 readFromFile();
             }
-        } catch (Exception e) {
-            System.out.println("error new file");
-            
+        } catch (IOException e) {
             return;
         }
         if (ttt.getGameOver()) {
@@ -128,28 +130,25 @@ public class GameBoard extends JPanel {
                 cloneuser[i] = highScoreUser[i];
                 clonescore[i] = highScoreTurns[i];
             }
-                if (clonescore[0] > currentUserScore) {
-                    System.out.println("First if");
-                    highScoreUser[0] = name;
-                    highScoreUser[1] = cloneuser[0];
-                    highScoreUser[2] = cloneuser[1];
-                    highScoreTurns[0] = currentUserScore;
-                    highScoreTurns[1] = clonescore[0];
-                    highScoreTurns[2] = clonescore[1];
-                } else if (clonescore[1] > currentUserScore) {
-                    System.out.println("Second if");
-                    highScoreUser[1] = name;
-                    highScoreUser[2] = cloneuser[1];
-                    highScoreTurns[1] = currentUserScore;
-                    highScoreTurns[2] = clonescore[1];
-                } else if (clonescore[2] > currentUserScore) {
-                    System.out.println("Third if");
-                    highScoreUser[2] = name;
-                    highScoreTurns[2] = currentUserScore;
-                } else {
-                    System.out.println("For debug");
-                }
-         writeToFile();
+            if (clonescore[0] > currentUserScore) {
+                highScoreUser[0] = name;
+                highScoreUser[1] = cloneuser[0];
+                highScoreUser[2] = cloneuser[1];
+                highScoreTurns[0] = currentUserScore;
+                highScoreTurns[1] = clonescore[0];
+                highScoreTurns[2] = clonescore[1];
+            } else if (clonescore[1] > currentUserScore) {
+                highScoreUser[1] = name;
+                highScoreUser[2] = cloneuser[1];
+                highScoreTurns[1] = currentUserScore;
+                highScoreTurns[2] = clonescore[1];
+            } else if (clonescore[2] > currentUserScore) {
+                highScoreUser[2] = name;
+                highScoreTurns[2] = currentUserScore;
+            } else {
+                clonescore[1] = clonescore[1];
+            }
+            writeToFile();
         }
     }
     
@@ -188,7 +187,6 @@ public class GameBoard extends JPanel {
         } catch (IOException e) {
             return false;
         }
-        System.out.println("first set up " + answer);
         return answer;
     }
     
@@ -210,7 +208,6 @@ public class GameBoard extends JPanel {
     public void showHighScore(String name) {
         if (firstSetpUp()) {
             readFromFile();
-            System.out.println("reads from file");
             
         }
         boardUsername(name);
@@ -274,14 +271,6 @@ public class GameBoard extends JPanel {
         
         g.drawString("Total Moves : " + ttt.getNumTurms(), 350, 650);
         
-        if (toplay) {
-            g.drawString("The game of Connect 4 is won by placing 4 checkers in a row", 225, 680);
-            g.drawString("The two Players alternate their turns", 275, 700);
-            g.drawString("Use the mouse to select the column you to wish to "
-                    + "play your checker in", 175, 720);
-            toplay = false;
-            
-        }
 
         // Draws X's and O's
         for (int i = 0; i < 6; i++) {

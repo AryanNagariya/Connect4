@@ -204,47 +204,6 @@ public class Connect4Game {
     }
 
     public static void main(String[] args) {
-        Connect4Game t = new Connect4Game();
-
-        t.playTurn(0);
-        t.printGameState();
-
-        t.playTurn(1);
-        t.printGameState();
-
-        t.playTurn(1);
-        t.printGameState();
-
-        t.playTurn(2);
-        t.printGameState();
-
-        t.playTurn(3);
-        t.printGameState();
-
-        t.playTurn(2);
-        t.printGameState();
-
-        t.playTurn(2);
-        t.printGameState();
-
-        t.playTurn(3);
-        t.printGameState();
-
-        t.playTurn(4);
-        t.printGameState();
-
-        t.playTurn(3);
-        t.printGameState();
-
-        t.playTurn(3);
-        t.printGameState();
-
-        System.out.println();
-        System.out.println();
-        if (t.getGameOver()) {
-            System.out.println("Winner is: " + t.getWinner());
-        }
-
     }
 
 }

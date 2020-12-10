@@ -72,7 +72,7 @@ public class Game implements Runnable {
         final JButton howtoplay = new JButton("How to Play");
         howtoplay.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                board.howtoplay();
+                    board.howtoplay();
             }
         });
         control_panel.add(howtoplay);
