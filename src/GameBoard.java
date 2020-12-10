@@ -101,16 +101,19 @@ public class GameBoard extends JPanel {
     public void boardUsername(String name) {
         try {
             if (highScoreUser[0] == null) {
-                System.out.println("Creates a new file");
                 File storeHighScores = new File("highscores.txt");
                 if (!storeHighScores.exists()) {
                     storeHighScores.createNewFile();
                 }
                 BufferedWriter bwfile = new BufferedWriter(new FileWriter(storeHighScores));
-                bwfile.write("Nouser0|43\n");
-                bwfile.write("Nouser1|43\n");
-                bwfile.write("Nouser2|43\n");
+                System.out.println("Adds Nousers");
+                bwfile.write("Nouser0|43");
+                bwfile.newLine();
+                bwfile.write("Nouser1|43");
+                bwfile.newLine();
+                bwfile.write("Nouser2|43");
                 bwfile.close();
+                readFromFile();
             }
         } catch (Exception e) {
             System.out.println("error new file");
@@ -118,7 +121,6 @@ public class GameBoard extends JPanel {
             return;
         }
         if (ttt.getGameOver()) {
-            System.out.println("Tries to edit score if game is over");
             int currentUserScore = ttt.getNumTurms();
             String[] cloneuser = new String [3];
             int[] clonescore = new int [3];
@@ -147,8 +149,8 @@ public class GameBoard extends JPanel {
                     System.out.println("For debug");
                 }
             }
+            writeToFile();
         }
-        writeToFile();
     }
     
     public void writeToFile() {
@@ -171,6 +173,25 @@ public class GameBoard extends JPanel {
         }
     }
     
+    public boolean firstSetpUp() {
+        boolean answer;
+        try {
+            BufferedReader brfile = new BufferedReader(new FileReader("highscores.txt"));
+            String theline = brfile.readLine();
+            String[] storage = theline.split("\\|");
+            if (!storage[0].equals("Nouser0")) {
+                answer = true;
+            } else {
+                answer = false;
+            }
+            brfile.close();
+        } catch (IOException e) {
+            return false;
+        }
+        System.out.println("first set up " + answer);
+        return answer;
+    }
+    
     public void readFromFile() {
         try {
             BufferedReader brfile = new BufferedReader(new FileReader("highscores.txt"));
@@ -187,7 +208,11 @@ public class GameBoard extends JPanel {
     }
     
     public void showHighScore(String name) {
-        readFromFile();
+        if (firstSetpUp()) {
+            readFromFile();
+            System.out.println("reads from file");
+            
+        }
         boardUsername(name);
         String todisplay;
         todisplay = "First position is held by " + highScoreUser[0] + " with a score of " + 
