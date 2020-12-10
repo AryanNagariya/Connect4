@@ -158,6 +158,47 @@ public class ModelTest {
     }
     
     @Test
+    public void lastCheckerIn2ndMiddle() {
+        Connect4Game t = new Connect4Game();
+        t.playTurn(1);
+        t.playTurn(2);
+        t.playTurn(3);
+        t.playTurn(3);
+        t.playTurn(3);
+        t.playTurn(4);
+        t.playTurn(4);
+        t.playTurn(4);
+        t.playTurn(4);
+        t.playTurn(5);
+        t.playTurn(2);
+        assertTrue(t.getCurrentPlayer());
+        assertEquals(1, t.getWinner());
+        assertTrue(t.getGameOver());
+        assertEquals(11, t.getNumTurms());
+    }
+    
+    @Test
+    public void lastCheckerIn3rdMiddle() {
+        Connect4Game t = new Connect4Game();
+        t.playTurn(1);
+        t.playTurn(2);
+        t.playTurn(3);
+        t.playTurn(3);
+        t.playTurn(2);
+        t.playTurn(4);
+        t.playTurn(4);
+        t.playTurn(4);
+        t.playTurn(4);
+        t.playTurn(5);
+        assertFalse(t.getGameOver());
+        t.playTurn(3);
+        assertTrue(t.getCurrentPlayer());
+        assertEquals(1, t.getWinner());
+        assertTrue(t.getGameOver());
+        assertEquals(11, t.getNumTurms());
+    }
+    
+    @Test
     public void gameOverRegistersFalse() {
         Connect4Game t = new Connect4Game();
         t.playTurn(2);
@@ -166,7 +207,7 @@ public class ModelTest {
     }
     
     @Test
-    public void restWorksBeforeWinningGame() {
+    public void resetWorksBeforeWinningGame() {
         Connect4Game t = new Connect4Game();
         t.playTurn(2);
         t.playTurn(2);
@@ -181,7 +222,7 @@ public class ModelTest {
     }
     
     @Test
-    public void restWorksAfterWinningGame() {
+    public void resetWorksAfterWinningGame() {
         Connect4Game t = new Connect4Game();
         t.playTurn(3);
         t.playTurn(3);
@@ -251,6 +292,29 @@ public class ModelTest {
         assertTrue(t.getCurrentPlayer());
         assertEquals(0, t.getNumTurms());
         assertFalse(t.getGameOver());
+    }
+    
+    @Test
+    public void endsGameAfterPlayerWins() {
+        Connect4Game t = new Connect4Game();
+        t.playTurn(1);
+        t.playTurn(2);
+        t.playTurn(2);
+        t.playTurn(3);
+        t.playTurn(3);
+        t.playTurn(4);
+        t.playTurn(3);
+        t.playTurn(4);
+        t.playTurn(4);
+        t.playTurn(2);
+        t.playTurn(4);
+        assertTrue(t.getCurrentPlayer());
+        assertEquals(1, t.getWinner());
+        assertTrue(t.getGameOver());
+        assertEquals(11, t.getNumTurms());
+        t.playTurn(2);
+        t.playTurn(4);
+        assertEquals(11, t.getNumTurms());
     }
 
 }

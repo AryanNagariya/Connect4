@@ -61,6 +61,14 @@ PennKey: _______
 
   4. JUnit Test:
   
+  I used Junit tests to test the game itself. Junit tests were useful since they allowed to
+  implemenet the backend of the program and then work on the frontend which is the GUI. 
+  Moreover, I also made sure that I split my functions acorss well so that
+  I could test multiple different states of the same componenet game. All of this
+  helped my debug my intital code that I had written for Connect4. Moreover, I also
+  made sure to test edge cases. Finally, I did not only rely on the JUnit tests, 
+  but also made sure that the game worked as expected in the GUI format. 
+  
   
 
 =========================
@@ -74,7 +82,8 @@ PennKey: _______
 - Were there any significant stumbling blocks while you were implementing your
   game (related to your design, or otherwise)?
   
-  Talk about the implementation of file I/O. 
+  Talk about the implementation of file I/O.  Or going through the arrays and
+  how to see if there are four in a row.
 
 
 - Evaluate your design. Is there a good separation of functionality? How well is
