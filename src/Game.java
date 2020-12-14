@@ -45,12 +45,7 @@ public class Game implements Runnable {
         response = JOptionPane.showInputDialog("Type your username here : ");
         board.storeUser(response);
 
-        // Note here that when we add an action listener to the reset button, we define
-        // it as an
-        // anonymous inner class that is an instance of ActionListener with its
-        // actionPerformed()
-        // method overridden. When the button is pressed, actionPerformed() will be
-        // called.
+        // Reset Button
         final JButton reset = new JButton("Reset");
         reset.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
@@ -59,6 +54,8 @@ public class Game implements Runnable {
         });
         control_panel.add(reset);
         
+        
+        // Undo Button
         final JButton undo = new JButton("Undo");
         undo.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
@@ -67,6 +64,7 @@ public class Game implements Runnable {
         });
         control_panel.add(undo);
         
+        // Instructions Button
         final JButton howtoplay = new JButton("How to Play");
         howtoplay.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
@@ -75,6 +73,7 @@ public class Game implements Runnable {
         });
         control_panel.add(howtoplay);
         
+        //Display High Score Button
         final JButton displayHighScore = new JButton("High Scores");
         displayHighScore.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {

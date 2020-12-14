@@ -30,9 +30,9 @@ public class GameBoard extends JPanel {
 
     private Connect4Game ttt; // model for the game
     private JLabel status; // current status text
-    private String[] highScoreUser = new String[3];
-    private int[] highScoreTurns = new int[3];
-    private String currPlayerName;
+    private String[] highScoreUser = new String[3]; // Stores Top 3 user's names
+    private int[] highScoreTurns = new int[3]; // Stores their respective scores
+    private String currPlayerName; // stores the current player's user name
 
     // Game constants
     public static final int BOARD_WIDTH = 800;
@@ -45,9 +45,6 @@ public class GameBoard extends JPanel {
         // creates border around the court area, JComponent method
         setBorder(BorderFactory.createLineBorder(Color.BLACK));
 
-        // Enable keyboard focus on the court area.
-        // When this component has the keyboard focus, key events are handled by its key
-        // listener.
         setFocusable(true);
 
         ttt = new Connect4Game(); // initializes model for the game
@@ -63,7 +60,6 @@ public class GameBoard extends JPanel {
                 Point p = e.getPoint();
 
                 // updates the model given the coordinates of the mouseclick
-                // ttt.playTurn(p.x / 100, p.y / 100);
                 ttt.playTurn(p.x / 100);
 
                 updateStatus(); // updates the status JLabel
@@ -93,6 +89,8 @@ public class GameBoard extends JPanel {
         requestFocusInWindow();
     }
     
+    
+    //Display's how to play the game
     public void howtoplay() {
         
         String toshow = "The game of Connect 4 is won by placing 4 checkers in a row. \n" + 
@@ -104,6 +102,8 @@ public class GameBoard extends JPanel {
         repaint();
     }
     
+    // Creates a temp values in file and figures out
+    // what to high scores to display
     public void boardUsername(String name) {
         try {
             if (highScoreUser[0] == null) {
@@ -112,11 +112,11 @@ public class GameBoard extends JPanel {
                     storeHighScores.createNewFile();
                 }
                 BufferedWriter bwfile = new BufferedWriter(new FileWriter(storeHighScores));
-                bwfile.write("Nouser0|43");
+                bwfile.write("Nouser|43");
                 bwfile.newLine();
-                bwfile.write("Nouser1|43");
+                bwfile.write("Nouser|43");
                 bwfile.newLine();
-                bwfile.write("Nouser2|43");
+                bwfile.write("Nouser|43");
                 bwfile.close();
                 readFromFile();
             }
@@ -153,6 +153,8 @@ public class GameBoard extends JPanel {
         }
     }
     
+    
+    // Writes to high scores file and updates it
     public void writeToFile() {
         BufferedWriter bw = null ;
         try {
@@ -173,10 +175,12 @@ public class GameBoard extends JPanel {
         }
     }
     
+    // passes in the current player's name from their input box
     public void storeUser(String k) {
         currPlayerName = k;
     }
     
+    // Initializes the file
     public boolean firstSetpUp() {
         boolean answer;
         try {
@@ -195,6 +199,7 @@ public class GameBoard extends JPanel {
         return answer;
     }
     
+    //Reads from the file and updates local array
     public void readFromFile() {
         try {
             BufferedReader brfile = new BufferedReader(new FileReader("highscores.txt"));
@@ -210,6 +215,7 @@ public class GameBoard extends JPanel {
         }
     }
     
+    // gives the name of the current user to file writer
     public void updateHighScore(String name) {
         if (firstSetpUp()) {
             readFromFile();
@@ -218,14 +224,33 @@ public class GameBoard extends JPanel {
         boardUsername(name);
     }
     
+    //displays the current high scores
     public void showHighScore() {
+        String[] tempuser = new String [3];
+        int[] tempscore = new int [3];
+        for (int i = 0; i < 3; i++) {
+            tempuser[i] = highScoreUser[i];
+            tempscore[i] = highScoreTurns[i];
+        }
+        if (tempuser[0].equals("Nouser")) {
+            tempuser[0] = "nobody";
+            tempscore[0] = 0;
+        }
+        if (tempuser[1].equals("Nouser")) {
+            tempuser[1] = "nobody";
+            tempscore[1] = 0;
+        }
+        if (tempuser[2].equals("Nouser")) {
+            tempuser[2] = "nobody";
+            tempscore[2] = 0;
+        }
         String todisplay;
-        todisplay = "First position is held by " + highScoreUser[0] + " with a score of " + 
-        highScoreTurns[0]
-                + "\n" + "Second Position is held by " + highScoreUser[1] + " with a score of " 
-                + highScoreTurns[1]
-                + "\n" + "Third Position is held by " + highScoreUser[2] + " with a score of "
-                + highScoreTurns[2];
+        todisplay = "First position is held by " + tempuser[0] + " with a score of " + 
+                tempscore[0]
+                + "\n" + "Second Position is held by " + tempuser[1] + " with a score of " 
+                + tempscore[1]
+                + "\n" + "Third Position is held by " + tempuser[2] + " with a score of "
+                + tempscore[2];
         JOptionPane.showMessageDialog(null, todisplay);
     }
 
@@ -251,15 +276,6 @@ public class GameBoard extends JPanel {
         }
     }
 
-    /**
-     * Draws the game board.
-     * 
-     * There are many ways to draw a game board. This approach will not be
-     * sufficient for most games, because it is not modular. All of the logic for
-     * drawing the game board is in this method, and it does not take advantage of
-     * helper methods. Consider breaking up your paintComponent logic into multiple
-     * methods or classes, like Mushroom of Doom.
-     */
     @Override
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
@@ -282,7 +298,7 @@ public class GameBoard extends JPanel {
         g.drawString("Total Moves : " + ttt.getNumTurms(), 350, 650);
         
 
-        // Draws X's and O's
+        // Draws the checkers
         for (int i = 0; i < 6; i++) {
             for (int j = 0; j < 7; j++) {
                 int state = ttt.getCell(j, i);

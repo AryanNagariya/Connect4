@@ -42,28 +42,31 @@ PennKey: _______
   use the peek method to debug and see how my code does without actually removing the element. Other choices
   I would have would be Sets, however, these would be unordered or Maps, but it doesn't make sense
   to map the moves to the player, since knowing who played the last move doesn't matter when
-  implemeting the undo button.
+  implementing the undo button. I also chose to use an integer stack because it made the most
+  sense as I was storing the column and row values of the board. However, the user cannot undo a game after
+  the game has been won because that is not fair.
 
   3. FileI/O :
   
   I use to created a file and then store the top 3 high scores in this. The reason a file was appropriate
   for storing high scores was because a file can stay constant and can be access from all objects
   of my board. Therefore, I can show users the high scores from games that were played before the current one.
-  I use the file writer methods to edit the top 3 highscores, if the conditions are met. Moreover, 
-  I then use the read file method to gain the top 3 highscores, then store them in an array, compare
-  it to the current score. If the current score deserves to be one of the top 3 highscore, then
+  I use the file writer methods to edit the top 3 high scores, if the conditions are met. Moreover, 
+  I then use the read file method to gain the top 3 high scores, then store them in an array, compare
+  it to the current score. If the current score deserves to be one of the top 3 high score, then
   I edit the array and place the new top 3 scores into the file for the next play of the game
   to read and compare.To store the high score in the file, I use a "username|score" convention where
-  the username and their score are separated by a "|". I can also read the file and display the
-  highscores if the user wants to see it via the "show high scores" button. When displaying the score,
+  the user name and their score are separated by a "|". I can also read the file and display the
+  high scores if the user wants to see it via the "show high scores" button. When displaying the score,
   I also arrange it a way that is standard for connect4 i.e a game finished with lower moves is considered
-  better than a game finished with more moves.
+  better than a game finished with more moves. If the game has been played less than 3 times, 
+  the unused spots are shown as the score is held by "nobody" with a score of 0.
 
   4. JUnit Test:
   
   I used Junit tests to test the game itself. Junit tests were useful since they allowed to
-  implemenet the backend of the program and then work on the frontend which is the GUI. 
-  Moreover, I also made sure that I split my functions acorss well so that
+  implemenet the back end of the program and then work on the front end which is the GUI. 
+  Moreover, I also made sure that I split my functions across well so that
   I could test multiple different states of the same componenet game. All of this
   helped my debug my intital code that I had written for Connect4. Moreover, I also
   made sure to test edge cases. Finally, I did not only rely on the JUnit tests, 
@@ -77,19 +80,52 @@ PennKey: _______
 
 - Provide an overview of each of the classes in your code, and what their
   function is in the overall game.
+  
+  I modeled my classes after the sample code since tictactoe and 
+  connect4 have so much in common i.e drawing figures, turn by turn, 
+  2 players, a fixed board length, fixed operations that users can do, 
+  only mouse controls etc that it made sense to do so.
+  My game.java class captures all the interactions with the users such 
+  as displaying the reset button, how to play button etc and then passes
+  that on to the GameBoard.java class. This class serves as the view
+  of the model-view-controller framework as the main purpose
+  of this class is to repaint the objects on the board that the user interacts with
+  Finally, the Connect4Game.java is the actual back end of the game that is the model 
+  of the game which acutally implements the playing of the board, switching of turns, 
+  keeping track of turns etc and can actually be played entirely on its own
+  without the other two classes.
 
 
 - Were there any significant stumbling blocks while you were implementing your
   game (related to your design, or otherwise)?
   
-  Talk about the implementation of file I/O.  Or going through the arrays and
-  how to see if there are four in a row.
+  Yeah, one of major challenges was figuring out how to see if the game has been over i.e 
+  checking if one player had played 4 checekers in a row. Intially, I was thinking
+  of looking at each of the boxes of the grids and keep eight different arrays in order
+  to keep track of whether the boxes had the same color checker on them. However,
+  I quickly realized it is much more efficient to check the state of the game
+  everytime a checker has been player. A mistake I intially made with
+  this was only checking rows such that the last played checker was either
+  the first or the last in the row of 4. Therefore, I ran a for loop through 
+  the entire 2D array to compensate for if the checker was placed in the middle
+  of a row of 4. This is also one of the key edge cases that I checked for in
+  my Junit class.
 
 
 - Evaluate your design. Is there a good separation of functionality? How well is
   private state encapsulated? What would you refactor, if given the chance?
   
-  yeah maybe refactor to separt
+  Yes, I do think that I handled the separation of functionality well as well
+  made sure my states were all encapsulated. Moreover, I also took
+  guidance from the sample code, which was one of the key reason I think
+  I was able to take care of these components. Had I not had the sample code, 
+  I think I might have mixed some of the functionalites of two classes into one
+  and made it far more complication and harder to debug. Moreover, I 
+  was also able to test each of the individual components of the state well
+  in my JUnit testing. If I had to refactor, I might refactor the functionality
+  of the updating the highscores maybe into a different classes, since there
+  was so much going on for that aspect that it did make my GameBoard.java a little more
+  crowded and harder to understand than I would have liked it to be.
 
 
 
@@ -99,3 +135,5 @@ PennKey: _______
 
 - Cite any external resources (libraries, images, tutorials, etc.) that you may
   have used while implementing your game.
+  
+  No external resources were used.
